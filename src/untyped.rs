@@ -13,3 +13,15 @@ pub enum Subst {
     Cons(Box<Term>, Box<Subst>),
     Compose(Box<Subst>, Box<Subst>),
 }
+
+impl Term {
+    pub fn beta(self, t: Term) -> Term {
+        Term::Subst(Box::new(self), Subst::cons(t, Subst::Id))
+    }
+}
+
+impl Subst {
+    fn cons(t: Term, s: Subst) -> Self {
+        Subst::Cons(Box::new(t), Box::new(s))
+    }
+}
