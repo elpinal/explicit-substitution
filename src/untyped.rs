@@ -1,6 +1,6 @@
 #[derive(Clone, Debug, PartialEq)]
 pub enum Term {
-    Var(usize, usize),
+    Var,
     App(Box<Term>, Box<Term>),
     Abs(Box<Term>),
     Subst(Box<Term>, Subst),
