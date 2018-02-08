@@ -52,7 +52,7 @@ impl Term {
                         }
                     }
                     Compose(s1, s2) => {
-                        Subst(self, s1).whnf(s2)
+                        Term::subst(self, *s1).whnf(*s2)
                     }
                 }
             }
