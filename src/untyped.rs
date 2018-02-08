@@ -18,6 +18,9 @@ impl Term {
     pub fn beta(self, t: Term) -> Term {
         Term::Subst(Box::new(self), Subst::cons(t, Subst::Id))
     }
+
+    fn whnf(self, s: Subst) -> (Self, Subst) {
+    }
 }
 
 impl Subst {
