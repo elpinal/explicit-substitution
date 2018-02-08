@@ -20,6 +20,11 @@ impl Term {
     }
 
     fn whnf(self, s: Subst) -> (Self, Subst) {
+        use self::Term::*;
+        use self::Subst::*;
+        match (self, s) {
+            (Abs(..), _) => (self, s),
+        }
     }
 }
 
