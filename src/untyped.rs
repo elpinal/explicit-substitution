@@ -19,6 +19,10 @@ impl Term {
         Term::App(Box::new(t1), Box::new(t2))
     }
 
+    fn subst(t: Term, s: Subst) -> Term {
+        Term::Subst(Box::new(t), s)
+    }
+
     pub fn beta(self, t: Term) -> Term {
         Term::Subst(Box::new(self), Subst::cons(t, Subst::Id))
     }
