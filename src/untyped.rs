@@ -44,7 +44,7 @@ impl Term {
             (Var, _) => {
                 match s {
                     Id => (self, s),
-                    Shift => (Subst(self, Shift), Id),
+                    Shift => (Term::subst(self, Shift), Id),
                 }
             }
         }
