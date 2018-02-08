@@ -28,6 +28,8 @@ impl Term {
                 let (t, s1) = t1.whnf(s);
                 if let Abs(t) = t {
                     t.whnf(Subst::cons(Subst(t2, s), s1))
+                } else {
+                    (App(t, Subst(t2, s)), Id)
                 }
             }
         }
