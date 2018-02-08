@@ -51,6 +51,9 @@ impl Term {
                             _ => (self, Cons(t, s)),
                         }
                     }
+                    Compose(s1, s2) => {
+                        Subst(self, s1).whnf(s2)
+                    }
                 }
             }
         }
