@@ -24,6 +24,12 @@ impl Term {
         use self::Subst::*;
         match (self, s) {
             (Abs(..), _) => (self, s),
+            (App(t1, t2), s) => {
+                let (t, s1) = t1.whnf(s);
+                if let Abs(t) = t {
+                    t.whnf(Subst::cons(Subst(t2, s), s1))
+                }
+            }
         }
     }
 }
