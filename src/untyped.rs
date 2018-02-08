@@ -34,7 +34,7 @@ impl Term {
                 if let Abs(t) = t {
                     t.whnf(Subst::cons(Subst(t2, s), s1))
                 } else {
-                    (App(t, Subst(t2, s)), Id)
+                    (Term::app(t, Subst(t2, s)), Id)
                 }
             }
         }
