@@ -40,7 +40,7 @@ impl Term {
             (Var, _) => {
                 match s {
                     Id => (self, s),
-                    Shift => (self + 1, Id),
+                    Shift => (Subst(self, Shift), Id),
                 }
             }
         }
