@@ -45,9 +45,10 @@ impl Term {
                 match s {
                     Id => (self, s),
                     Shift => (Term::subst(self, Shift), Id),
-                    Cons(t, _) => {
+                    Cons(t, s) => {
                         match *t {
                             Subst(a, s) => a.whnf(s),
+                            _ => (self, Cons(t, s)),
                         }
                     }
                 }
