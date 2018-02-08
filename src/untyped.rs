@@ -15,6 +15,10 @@ pub enum Subst {
 }
 
 impl Term {
+    fn app(t1: Term, t2: Term) -> Term {
+        Term::App(Box::new(t1), Box::new(t2))
+    }
+
     pub fn beta(self, t: Term) -> Term {
         Term::Subst(Box::new(self), Subst::cons(t, Subst::Id))
     }
