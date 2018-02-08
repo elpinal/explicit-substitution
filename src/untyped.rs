@@ -37,6 +37,12 @@ impl Term {
                     (Term::app(t, Subst(t2, s)), Id)
                 }
             }
+            (Var, _) => {
+                match s {
+                    Id => (self, s),
+                    Shift => (self + 1, Id),
+                }
+            }
         }
     }
 }
