@@ -55,7 +55,7 @@ impl Term {
                     Cons(t, s) => {
                         match *t {
                             Subst(a, s) => a.whnf(s),
-                            _ => (self, Cons(t, s)),
+                            _ => (self, Cons(t, s)), // return as it is.
                         }
                     }
                     Compose(s1, s2) => Term::subst(self, *s1).whnf(*s2),
