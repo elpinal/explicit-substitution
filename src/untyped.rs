@@ -70,7 +70,7 @@ impl Term {
                             Cons(t, _) => {
                                 t.whnf(s)
                             }
-                            Compose(s1, s2) => Subst(self, s1).whnf(Compose(s2, s)),
+                            Compose(s1, s2) => subst(self, s1).whnf(Compose(s2, s)),
                         }
                     }
                     _ => t.whnf(Subst::compose(s0, s)),
