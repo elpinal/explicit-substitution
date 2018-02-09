@@ -67,6 +67,9 @@ impl Term {
                         match s0 {
                             Id => t.whnf(s),
                             Shift => Whnf::App(1, vec![]).whnf(s),
+                            Cons(t, _) => {
+                                t.whnf(s)
+                            }
                         }
                     }
                     _ => t.whnf(Subst::compose(s0, s)),
