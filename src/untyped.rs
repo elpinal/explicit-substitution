@@ -89,3 +89,9 @@ impl Subst {
         Subst::Compose(Box::new(s1), Box::new(s2))
     }
 }
+
+impl Whnf {
+    fn num(n: usize) -> Self {
+        Whnf::App(n, vec![])
+    }
+}
