@@ -32,7 +32,7 @@ impl Term {
         Term::Subst(Box::new(self), Subst::cons(t, Subst::Id))
     }
 
-    fn whnf(self, s: Subst) -> (Self, Subst) {
+    fn whnf(self, s: Subst) -> (Whnf, Subst) {
         use self::Term::*;
         use self::Subst::*;
         use self::Subst;
