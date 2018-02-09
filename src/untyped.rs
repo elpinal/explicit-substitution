@@ -14,6 +14,11 @@ pub enum Subst {
     Compose(Box<Subst>, Box<Subst>),
 }
 
+enum Whnf {
+    Abs(Term),
+    App(usize, Vec<Term>),
+}
+
 impl Term {
     fn app(t1: Term, t2: Term) -> Term {
         Term::App(Box::new(t1), Box::new(t2))
