@@ -50,8 +50,8 @@ impl Term {
             }
             Var => {
                 match s {
-                    Id => (Whnf::App(1, vec![]), s),
-                    Shift => (Whnf::App(2, vec![]), Id),
+                    Id => (Whnf::App(0, vec![]), s),
+                    Shift => (Whnf::App(1, vec![]), Id),
                     Cons(t, s) => {
                         match *t {
                             Subst(a, s) => a.whnf(s),
