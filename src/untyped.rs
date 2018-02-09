@@ -37,7 +37,7 @@ impl Term {
         use self::Subst::*;
         use self::Subst;
         match self {
-            Abs(..) => (self, s),
+            Abs(t) => (Whnf::Abs(*t), s),
             App(t1, t2) => {
                 let (t, s1) = t1.whnf(s.clone());
                 if let Abs(t) = t {
