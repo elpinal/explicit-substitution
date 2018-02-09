@@ -40,10 +40,12 @@ impl Term {
             Abs(t) => (Whnf::Abs(*t), s),
             App(t1, t2) => {
                 let (t, s1) = t1.whnf(s.clone());
-                if let Abs(t) = t {
-                    t.whnf(Subst::cons(Subst(t2, s), s1))
-                } else {
-                    (Term::app(t, Subst(t2, s)), Id)
+                match t {
+                    Whnf::Abs(t) => t.whnf(Subst::cons(Subst(t2, s), s1)),
+                    Whnf::App(n, mut ts) => {
+                        ts.push(Subst(t2, s));
+                        (Whnf::App(n, ts), Id)
+                    }
                 }
             }
             Var => {
