@@ -64,4 +64,8 @@ impl Subst {
     fn cons(t: Term, s: Subst) -> Self {
         Subst::Cons(Box::new(t), Box::new(s))
     }
+
+    fn compose(s1: Subst, s2: Subst) -> Self {
+        Subst::Compose(Box::new(s1), Box::new(s2))
+    }
 }
