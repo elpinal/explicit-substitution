@@ -31,9 +31,9 @@ impl Term {
         use self::Term::*;
         use self::Subst::*;
         use self::Subst;
-        match (self, s) {
-            (Abs(..), _) => (self, s),
-            (App(t1, t2), _) => {
+        match self {
+            Abs(..) => (self, s),
+            App(t1, t2) => {
                 let (t, s1) = t1.whnf(s.clone());
                 if let Abs(t) = t {
                     t.whnf(Subst::cons(Subst(t2, s), s1))
@@ -41,7 +41,7 @@ impl Term {
                     (Term::app(t, Subst(t2, s)), Id)
                 }
             }
-            (Var, _) => {
+            Var => {
                 match s {
                     Id => (self, s),
                     Shift => (Term::subst(self, Shift), Id),
@@ -51,9 +51,17 @@ impl Term {
                             _ => (self, Cons(t, s)),
                         }
                     }
-                    Compose(s1, s2) => {
-                        Term::subst(self, *s1).whnf(*s2)
+                    Compose(s1, s2) => Term::subst(self, *s1).whnf(*s2),
+                }
+            }
+            Subst(t, s0) => {
+                match *t {
+                    Var => {
+                        match s0 {
+                            Id => t.whnf(s),
+                        }
                     }
+                    _ => t.whnf(Subst::compose(s0, s)),
                 }
             }
         }
