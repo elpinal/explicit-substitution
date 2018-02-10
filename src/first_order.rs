@@ -49,6 +49,14 @@ impl TypeCheck for Subst {
     }
 }
 
+impl TypeCheck for Term {
+    type Output = Type;
+
+    fn type_of(&self, mut ctx: Context) -> Self::Output {
+        unimplemented!();
+    }
+}
+
 impl Context {
     fn pop(&mut self) -> Option<Type> {
         self.0.pop()
