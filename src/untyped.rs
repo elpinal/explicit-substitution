@@ -1,6 +1,6 @@
 #[derive(Clone, Debug, PartialEq)]
 pub enum Term {
-    Var,
+    Var(usize),
     App(Box<Term>, Box<Term>),
     Abs(Box<Term>),
     Subst(Box<Term>, Subst),
@@ -48,14 +48,20 @@ impl Term {
                     }
                 }
             }
-            Var => {
+            Var(n) => {
                 match s {
-                    Id => (Whnf::num(0), s),
-                    Shift => (Whnf::num(1), Id),
+                    Id => (Whnf::num(n), s),
+                    Shift => (Whnf::num(n + 1), Id),
                     Cons(t, s) => {
-                        match *t {
-                            Subst(a, s) => a.whnf(s),
-                            _ => unimplemented!(), // (self, Cons(t, s)), // return as it is.
+                        match n {
+                            0 => {
+                                let t = *t;
+                                match t {
+                                    Subst(a, s) => a.whnf(s),
+                                    _ => panic!("FIXME: nothing to do"),
+                                }
+                            }
+                            _ => Var(n - 1).whnf(*s),
                         }
                     }
                     Compose(s1, s2) => Term::subst(self, *s1).whnf(*s2),
@@ -63,14 +69,17 @@ impl Term {
             }
             Subst(t, s0) => {
                 match *t {
-                    Var => {
+                    Var(n) => {
                         match s0 {
                             Id => t.whnf(s),
-                            Shift => Whnf::num(1).whnf(s),
-                            Cons(t, _) => {
-                                t.whnf(s)
+                            Shift => Var(n + 1).whnf(s),
+                            Cons(t, s0) => {
+                                match n {
+                                    0 => t.whnf(s),
+                                    _ => Term::subst(Var(n - 1), *s0).whnf(s),
+                                }
                             }
-                            Compose(s1, s2) => subst(self, s1).whnf(compose(s2, s)),
+                            Compose(s1, s2) => Subst(t, *s1).whnf(Subst::compose(*s2, s)),
                         }
                     }
                     _ => t.whnf(Subst::compose(s0, s)),
