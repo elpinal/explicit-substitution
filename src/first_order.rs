@@ -71,15 +71,12 @@ impl TypeCheck for Term {
                 Some(Type::arr(ty1.clone(), ty2))
             }
             App(ref t1, ref t2) => {
-                let ty1 = t1.type_of(ctx)?;
+                let ty1 = t1.type_of(ctx.clone())?;
                 let (ty11, ty12) = ty1.get_arr()?;
                 let ty2 = t2.type_of(ctx)?;
-                if ty11 != ty2 {
-                    None
-                } else {
-                    Some(ty12)
-                }
+                if ty11 != ty2 { None } else { Some(ty12) }
             }
+            Subst(ref t, ref s) => t.type_of(s.type_of(ctx)?),
         }
     }
 }
