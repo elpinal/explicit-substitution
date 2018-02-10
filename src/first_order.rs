@@ -20,6 +20,7 @@ pub enum Type {
     Arr(Box<Type>, Box<Type>),
 }
 
+#[derive(Clone)]
 pub struct Context(Vec<Type>);
 
 trait TypeCheck {
