@@ -62,7 +62,25 @@ impl TypeCheck for Term {
     type Output = Option<Type>;
 
     fn type_of(&self, mut ctx: Context) -> Self::Output {
-        unimplemented!();
+        use self::Term::*;
+        match *self {
+            Var(n) => ctx.get(n).cloned(),
+            Abs(ref ty1, ref t) => {
+                ctx.push(ty1.clone());
+                let ty2 = t.type_of(ctx)?;
+                Some(Type::arr(ty1.clone(), ty2))
+            }
+            App(ref t1, ref t2) => {
+                let ty1 = t1.type_of(ctx)?;
+                let (ty11, ty12) = ty1.get_arr()?;
+                let ty2 = t2.type_of(ctx)?;
+                if ty11 != ty2 {
+                    None
+                } else {
+                    Some(ty12)
+                }
+            }
+        }
     }
 }
 
