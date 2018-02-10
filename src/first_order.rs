@@ -49,8 +49,10 @@ impl TypeCheck for Subst {
                 ctx.push(ty2);
                 Some(ctx)
             }
-            Compose(..) => {
-                unimplemented!();
+            Compose(ref s1, ref s2) => {
+                // TODO: Although this follows the paper, I'm not sure that this is correct.
+                let ctx = s2.type_of(ctx)?;
+                s1.type_of(ctx)
             }
         }
     }
