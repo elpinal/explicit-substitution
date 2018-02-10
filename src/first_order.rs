@@ -28,6 +28,27 @@ trait TypeCheck {
     fn type_of(&self, ctx: Context) -> Self::Output;
 }
 
+impl TypeCheck for Subst {
+    type Output = Context;
+
+    fn type_of(&self, ctx: Context) -> Self::Output {
+        use self::Subst::*;
+        match *self {
+            Id => ctx,
+            Shift => {
+                ctx.pop();
+                ctx
+            }
+            Cons(ref t, ref ty, ref s) => {
+                unimplemented!();
+            }
+            Compose(..) => {
+                unimplemented!();
+            }
+        }
+    }
+}
+
 impl Context {
     fn pop(&mut self) -> Option<Type> {
         self.0.pop()
