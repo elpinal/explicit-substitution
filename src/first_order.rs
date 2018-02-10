@@ -19,3 +19,5 @@ pub enum Type {
     K,
     Arr(Box<Type>, Box<Type>),
 }
+
+pub struct Context(Vec<Type>);
