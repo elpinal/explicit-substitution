@@ -30,18 +30,24 @@ trait TypeCheck {
 }
 
 impl TypeCheck for Subst {
-    type Output = Context;
+    type Output = Option<Context>;
 
-    fn type_of(&self, ctx: Context) -> Self::Output {
+    fn type_of(&self, mut ctx: Context) -> Self::Output {
         use self::Subst::*;
         match *self {
-            Id => ctx,
+            Id => Some(ctx),
             Shift => {
                 ctx.pop();
-                ctx
+                Some(ctx)
             }
-            Cons(ref t, ref ty, ref s) => {
-                unimplemented!();
+            Cons(ref t, ref ty1, ref s) => {
+                let ty2 = t.type_of(ctx.clone());
+                if ty1 != &ty2 {
+                    return None;
+                }
+                let mut ctx = s.type_of(ctx)?;
+                ctx.push(ty2);
+                Some(ctx)
             }
             Compose(..) => {
                 unimplemented!();
