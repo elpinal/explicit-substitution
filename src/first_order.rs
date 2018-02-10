@@ -74,4 +74,8 @@ impl Context {
     fn push(&mut self, ty: Type) {
         self.0.push(ty)
     }
+
+    fn get(&mut self, n: usize) -> Option<&Type> {
+        self.0.get(n)
+    }
 }
