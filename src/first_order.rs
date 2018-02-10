@@ -41,7 +41,7 @@ impl TypeCheck for Subst {
                 Some(ctx)
             }
             Cons(ref t, ref ty1, ref s) => {
-                let ty2 = t.type_of(ctx.clone());
+                let ty2 = t.type_of(ctx.clone())?;
                 if ty1 != &ty2 {
                     return None;
                 }
