@@ -59,7 +59,7 @@ impl TypeCheck for Subst {
 }
 
 impl TypeCheck for Term {
-    type Output = Type;
+    type Output = Option<Type>;
 
     fn type_of(&self, mut ctx: Context) -> Self::Output {
         unimplemented!();
