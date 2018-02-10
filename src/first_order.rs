@@ -53,4 +53,8 @@ impl Context {
     fn pop(&mut self) -> Option<Type> {
         self.0.pop()
     }
+
+    fn push(&mut self, ty: Type) {
+        self.0.push(ty)
+    }
 }
