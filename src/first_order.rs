@@ -27,3 +27,9 @@ trait TypeCheck {
 
     fn type_of(&self, ctx: Context) -> Self::Output;
 }
+
+impl Context {
+    fn pop(&mut self) -> Option<Type> {
+        self.0.pop()
+    }
+}
