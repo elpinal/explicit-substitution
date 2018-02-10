@@ -84,6 +84,20 @@ impl TypeCheck for Term {
     }
 }
 
+impl Type {
+    fn arr(t1: Type, t2: Type) -> Type {
+        Type::Arr(Box::new(t1), Box::new(t2))
+    }
+
+    fn get_arr(self) -> Option<(Type, Type)> {
+        if let Type::Arr(t1, t2) = self {
+            Some((*t1, *t2))
+        } else {
+            None
+        }
+    }
+}
+
 impl Context {
     fn pop(&mut self) -> Option<Type> {
         self.0.pop()
