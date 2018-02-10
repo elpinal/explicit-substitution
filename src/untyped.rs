@@ -1,3 +1,5 @@
+//! The untyped λσ-calculus.
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum Term {
     Var(usize),
@@ -14,7 +16,7 @@ pub enum Subst {
     Compose(Box<Subst>, Box<Subst>),
 }
 
-enum Whnf {
+pub enum Whnf {
     Abs(Term),
     App(usize, Vec<Term>),
 }
@@ -32,7 +34,8 @@ impl Term {
         Term::Subst(Box::new(self), Subst::cons(t, Subst::Id))
     }
 
-    fn whnf(self, s: Subst) -> (Whnf, Subst) {
+    /// Evaluates a term in a global environment `s`. The result is in its weak normal head form.
+    pub fn whnf(self, s: Subst) -> (Whnf, Subst) {
         use self::Term::*;
         use self::Subst::*;
         use self::Subst;
@@ -58,7 +61,7 @@ impl Term {
                                 let t = *t;
                                 match t {
                                     Subst(a, s) => a.whnf(s),
-                                    _ => panic!("FIXME: nothing to do"),
+                                    _ => (Whnf::num(n), Subst::cons(t, *s)),
                                 }
                             }
                             _ => Var(n - 1).whnf(*s),
