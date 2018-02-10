@@ -21,3 +21,9 @@ pub enum Type {
 }
 
 pub struct Context(Vec<Type>);
+
+trait TypeCheck {
+    type Output;
+
+    fn type_of(&self, ctx: Context) -> Self::Output;
+}
