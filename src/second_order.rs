@@ -1,4 +1,4 @@
-use std::ops::Deref;
+use std::ops::{Deref, DerefMut};
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Term {
@@ -73,5 +73,11 @@ impl Deref for Context {
 
     fn deref(&self) -> &Self::Target {
         &self.0
+    }
+}
+
+impl DerefMut for Context {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
     }
 }
