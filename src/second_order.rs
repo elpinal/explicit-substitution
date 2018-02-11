@@ -66,6 +66,7 @@ impl Type {
     fn is_valid(&self, ctx: &Context) -> bool {
         use self::Type::*;
         use self::Subst::*;
+        use self::Subst::tcons;
         match *self {
             Var(n) => ctx.get(n).is_some(),
             Arr(ref ty1, ref ty2) => {
@@ -86,7 +87,7 @@ impl Type {
                     Abs(ref ty1) => {
                         let mut ctx = ctx.clone();
                         ctx.push(Binding::Type);
-                        Subst(ty1, TCons(Var(0), Compose(s, Shift))).is_valid(&ctx)
+                        Subst(ty1, tcons(Var(0), Compose(s, Shift))).is_valid(&ctx)
                     }
                     _ => unimplemented!(),
                 }
@@ -112,5 +113,11 @@ impl Deref for Context {
 impl DerefMut for Context {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
+    }
+}
+
+impl Subst {
+    fn tcons(ty: Type, s: Subst) -> Self {
+        Subst::(Box::new(ty), Box::new(s))
     }
 }
