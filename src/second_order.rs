@@ -37,3 +37,13 @@ enum Binding {
 trait Valid {
     fn is_valid(&self) -> bool;
 }
+
+impl Valid for Binding {
+    fn is_valid(&self) -> bool {
+        use self::Binding::*;
+        match *self {
+            Term(ref ty) => ty.is_valid(),
+            Type => true,
+        }
+    }
+}
