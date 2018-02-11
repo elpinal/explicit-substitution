@@ -38,6 +38,12 @@ trait Valid {
     fn is_valid(&self) -> bool;
 }
 
+impl Valid for Context {
+    fn is_valid(&self) -> bool {
+        self.0.iter().all(|b| b.is_valid())
+    }
+}
+
 impl Valid for Binding {
     fn is_valid(&self) -> bool {
         use self::Binding::*;
