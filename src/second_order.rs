@@ -29,7 +29,7 @@ pub enum Type {
 pub struct Context(Vec<Binding>);
 
 #[derive(Clone)]
-enum Binding {
+pub enum Binding {
     Term(Type),
     Type,
 }
