@@ -82,6 +82,11 @@ impl Type {
             }
             Subst(ref ty, ref s) => {
                 match ty {
+                    Abs(ref ty1) => {
+                        let mut ctx = ctx.clone();
+                        ctx.push(Binding::Type);
+                        Subst(ty1, Subst::TCons(Var(0), Subst::Compose(s, Subst::Shift))).is_valid(&ctx)
+                    }
                     _ => unimplemented!(),
                 }
             }
