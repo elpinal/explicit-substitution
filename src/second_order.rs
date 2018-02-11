@@ -65,6 +65,7 @@ impl Valid for Binding {
 impl Type {
     fn is_valid(&self, ctx: &Context) -> bool {
         use self::Type::*;
+        use self::Subst::*;
         match *self {
             Var(n) => ctx.get(n).is_some(),
             Arr(ref ty1, ref ty2) => {
@@ -85,7 +86,7 @@ impl Type {
                     Abs(ref ty1) => {
                         let mut ctx = ctx.clone();
                         ctx.push(Binding::Type);
-                        Subst(ty1, Subst::TCons(Var(0), Subst::Compose(s, Subst::Shift))).is_valid(&ctx)
+                        Subst(ty1, TCons(Var(0), Compose(s, Shift))).is_valid(&ctx)
                     }
                     _ => unimplemented!(),
                 }
