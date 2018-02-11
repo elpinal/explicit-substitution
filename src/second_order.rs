@@ -43,16 +43,20 @@ trait Valid {
 }
 
 impl Valid for Context {
-    fn is_valid(&self) -> bool {
-        self.0.iter().all(|b| b.is_valid())
+    type Input = ();
+
+    fn is_valid(&self, _: &Self::Input) -> bool {
+        self.0.iter().enumerate().all(|(i, b)| b.is_valid(&Context(self[..i].to_vec())))
     }
 }
 
 impl Valid for Binding {
-    fn is_valid(&self) -> bool {
+    type Input = Context;
+
+    fn is_valid(&self, ctx: &Self::Input) -> bool {
         use self::Binding::*;
         match *self {
-            Term(ref ty) => ty.is_valid(),
+            Term(ref ty) => ty.is_valid(ctx),
             Type => true,
         }
     }
