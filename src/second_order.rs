@@ -5,3 +5,9 @@ pub enum Type {
     Abs(Box<Type>),
     Subst(Box<Type>, Subst),
 }
+
+#[derive(Clone)]
+enum Binding {
+    Term(Type),
+    Type,
+}
