@@ -33,3 +33,7 @@ enum Binding {
     Term(Type),
     Type,
 }
+
+trait Valid {
+    fn is_valid(&self) -> bool;
+}
