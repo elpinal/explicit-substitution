@@ -7,6 +7,9 @@ pub enum Type {
 }
 
 #[derive(Clone)]
+pub struct Context(Vec<Binding>);
+
+#[derive(Clone)]
 enum Binding {
     Term(Type),
     Type,
