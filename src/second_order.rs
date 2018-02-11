@@ -37,7 +37,9 @@ pub enum Binding {
 }
 
 trait Valid {
-    fn is_valid(&self) -> bool;
+    type Input;
+
+    fn is_valid(&self, &Self::Input) -> bool;
 }
 
 impl Valid for Context {
