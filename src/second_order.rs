@@ -80,7 +80,11 @@ impl Type {
                 ctx.push(Binding::Type);
                 ty.is_valid(&ctx)
             }
-            _ => unimplemented!(),
+            Subst(ref ty, ref s) => {
+                match ty {
+                    _ => unimplemented!(),
+                }
+            }
         }
     }
 }
