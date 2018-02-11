@@ -62,6 +62,24 @@ impl Valid for Binding {
     }
 }
 
+impl Type {
+    fn is_valid(&self, ctx: &Context) -> bool {
+        use self::Type::*;
+        match *self {
+            Var(n) => ctx.get(n).is_some(),
+            Arr(ref ty1, ref ty2) => {
+                if !ty1.is_valid(ctx) {
+                    return false;
+                }
+                let mut ctx = ctx.clone();
+                ctx.push(Binding::Term(*ty1.clone()));
+                ty2.is_valid(&ctx)
+            }
+            _ => unimplemented!(),
+        }
+    }
+}
+
 impl Context {
     fn get(&self, n: usize) -> Option<&Binding> {
         self.0.get(n)
