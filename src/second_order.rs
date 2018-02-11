@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum Term {
     Var(usize),
@@ -57,5 +59,13 @@ impl Valid for Binding {
 impl Context {
     fn get(&self, n: usize) -> Option<&Binding> {
         self.0.get(n)
+    }
+}
+
+impl Deref for Context {
+    type Target = Vec<Binding>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
