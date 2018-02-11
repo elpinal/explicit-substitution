@@ -53,3 +53,9 @@ impl Valid for Binding {
         }
     }
 }
+
+impl Context {
+    fn get(&self, n: usize) -> Option<&Binding> {
+        self.0.get(n)
+    }
+}
