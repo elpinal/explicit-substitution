@@ -75,6 +75,11 @@ impl Type {
                 ctx.push(Binding::Term(*ty1.clone()));
                 ty2.is_valid(&ctx)
             }
+            Abs(ref ty) => {
+                let mut ctx = ctx.clone();
+                ctx.push(Binding::Type);
+                ty.is_valid(&ctx)
+            }
             _ => unimplemented!(),
         }
     }
